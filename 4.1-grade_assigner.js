@@ -12,17 +12,16 @@
 'use-strict'
 
 function assignGrade(numericScore){
-  let grade;
+  
   if (numericScore >= 90){
-    grade = 'A'
+    return 'A'
   } else if (numericScore >= 80){
-    grade = 'B'
+    return 'B'
   } else if (numericScore >= 70){
-    grade = 'C'
+    return 'C'
   } else if (numericScore >= 65){
-    grade = 'D'
+    return 'D'
   } else{
-    grade = 'F'
+    return 'F'
   }
-  return grade;
 }
