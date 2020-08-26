@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>19.1-smiley</title>
+
+</head>
+
+<body>
+  <h3>How many smileys do you want to see?</h3>
+  <input id="input-field"type="text" >
+  <button id="submit-btn">submit</button>
+  <div id="smiley-container"></div>
+
+  <script>
+    
+    const button = document.querySelector("#submit-btn");
+    const inputField = document.querySelector("#input-field");
+    const smileyContainer = document.querySelector("#smiley-container")
+  
+    button.addEventListener('click', () => {
+      smileyContainer.innerHTML = '';
+      if(isNaN(inputField.value)){
+        alert("ENTER valid number")
+      } else {
+        for(let i = 1; i <= inputField.value; i++){
+          smileyContainer.insertAdjacentHTML(`afterbegin`, `<img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Smile_Lirion.svg">`)
+        }
+      }  
+    });
+      
+    
+  </script>
+</body>
+
+</html>

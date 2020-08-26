@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  
+  <script>
+    // Make a div + add a class of wrapper to it + put it into the body
+    let div = document.createElement('div');
+    div.classList.add('wrapper');
+    document.body.appendChild(div);
+    
+    // make an unordered list + add three list items with the words "one, two three" 
+    // + put that list into the above wrapper
+    // let ul = document.createElement('ul');
+    // let firstLi = document.createElement('li');
+    // firstLi.textContent = 'one';
+    // let secondLi = document.createElement('li');
+    // secondLi.textContent = 'two';
+    // let thirdLi = document.createElement('li');
+    // thirdLi.textContent = 'three';
+    // ul.appendChild(firstLi);
+    // ul.appendChild(secondLi);
+    // ul.appendChild(thirdLi);
+    // div.appendChild(ul);
+    ////////////////////////////////////////////////////////////////////////////////
+    const ulString = `
+    <ul>
+      <li>one</li>
+      <li>two</li>
+      <li>three</li>
+    </ul>`;
+    div.innerHTML = ulString;
+
+  // create an image + set the source to an image + set the width to 250 + add a class of cute
+  // add an alt of Cute Puppy + Append that image to the wrapper
+    let img = document.createElement('img');
+    img.src = 'https://www.nparks.gov.sg/-/media/issue-44-vol-1-2020/lifestyle-recreation-and-activities/recognising-ten-streetside-flowers/2.jpg?h=252.667&w=362.667&la=en&hash=F5DF748081BF0379500763CC702604F96FE6188C'
+    img.alt = 'Cute Puppy';
+    img.width = 250;
+    img.classList.add('cute');
+    div.appendChild(img);
+
+  // with HTML string, make a div, with two paragraphs inside of it + put this div before the unordered list from above
+  // add a class to the second paragraph called warning + remove the first paragraph
+  let textDiv = `
+  <div>
+    <p>Paragraph 1</p>
+    <p>Paragraph 2</p>
+  </div>`;
+  let ul = div.querySelector('ul');
+  ul.insertAdjacentHTML('beforebegin', textDiv);
+  //add a class to the second paragraph called warning
+  div.firstElementChild.lastElementChild.classList.add('warning')
+  div.firstElementChild.firstElementChild.remove();
+
+  // create a function called generatePlayerCard that takes in three arguments: name, age, and height
+  // have that function return html that looks like this:
+  const generatePlayerCard = (name, age, height) => {
+    return `
+    <div class="playerCard">
+      <h2>${name} — ${age}</h2>
+      <p>They are ${height} and ${age} years old. In Dog years this person would be ${age}. That would be a tall dog!</p>
+    </div>`
+  };
+
+  // make a new div with a class of cards
+  let divCards = document.createElement('div');
+  divCards.classList.add('cards');
+  // Have that function make 4 cards
+  let cardsHtml = generatePlayerCard('roni', 27, 1.55);
+  cardsHtml += generatePlayerCard('roni', 27, 1.55);
+  cardsHtml += generatePlayerCard('roni', 27, 1.55);
+  cardsHtml += generatePlayerCard('roni', 27, 1.55);
+// append those cards to the div + put the div into the DOM just before the wrapper element
+  divCards.insertAdjacentHTML('afterbegin',cardsHtml);
+  div.insertAdjacentElement('afterbegin', divCards)
+  console.log();
+  
+  </script>
+  
+</body>
+</html>

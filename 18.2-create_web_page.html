@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // Creating element
+    let title = document.createElement('h1');
+    title.textContent = 'Welcome to my Webpage';
+    title.style.margin = '20px'
+    title.style.textAlign = 'center'
+
+    let text = document.createElement('p');
+    text.textContent = `A string that specifies the type of element to be created. The nodeName of the created element is initialized with the value of tagName. Don't use qualified names (like "html:a") with this method. When called on an HTML document, createElement() converts tagName to lower case before creating the element`;
+    text.style.width = '70%'
+    text.style.textAlign = 'center'
+    text.style.margin = '0 auto';
+
+    let imagesWrapper = document.createElement('div');
+    imagesWrapper.style.width = '70%'
+    imagesWrapper.style.textAlign = 'center'
+    imagesWrapper.style.margin = '0 auto';
+ 
+
+    
+    for(let i = 1; i <= 20; i++){
+      let image = document.createElement('img');
+      image.src = `https://picsum.photos/200`; 
+      image.style.margin = '20px'
+      imagesWrapper.appendChild(image);
+    }
+    
+    // Add elements to the HTML body
+    document.body.appendChild(title);
+    document.body.appendChild(text);
+    document.body.appendChild(imagesWrapper);
+    
+  </script>
+</body>
+</html>
