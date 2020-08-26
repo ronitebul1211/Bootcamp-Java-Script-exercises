@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18.2-text_area</title>
+
+  <style>
+    .container{
+      display: flex;
+      flex-direction: column;
+    }
+    .label{
+      font-size: large;
+    }
+    .btn{
+      border: none;
+      padding: 15px 45px;
+      text-align: center;
+      display: inline-block;
+      font-size: 30px;
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+
+<body>
+  <div class="container">
+    <label class="label" for="textArea">Why are you interested in this position?</label>
+    <textarea id="textArea" cols="30" rows="5"></textarea>
+    <button onclick="getInput()">Click Here!</button>
+  </div>
+
+  <script>
+
+    let textArea = document.getElementById("textArea");
+    function getInput(){
+      if(textArea.value.length < 100){
+        prompt('You must enter at least 100 characters before clicking the button.');
+      }
+   
+     
+    }
+  </script>
+  
+
+
+</body>
+</html>

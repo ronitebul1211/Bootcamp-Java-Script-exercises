@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18.1-font-size</title>
+
+  <style>
+    .btn{
+      border: none;
+      padding: 15px 45px;
+      text-align: center;
+      display: inline-block;
+      font-size: 30px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .text{
+      margin: 10px;
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+  <button onclick="incrementTextSize()" class='btn'>+</button>
+  <button onclick="decrementTextSize()" class='btn'>-</button>
+  <p id='text' class='text'>Some Text</p>
+
+
+
+  <script>
+
+  
+    const textElement = document.getElementById("text");
+    let fontSize = 16;
+    textElement.style.fontSize = 16 + 'px';
+    console.log(textElement.style.fontSize);
+    
+    function incrementTextSize(){
+      if(fontSize < 100){
+        fontSize++;
+        textElement.style.fontSize = fontSize + 'px';
+      } 
+    }
+
+    function decrementTextSize() {
+      if(fontSize > 6){
+        fontSize--;
+        textElement.style.fontSize = fontSize + 'px';
+      } 
+    }
+
+  </script>
+
+  
+</body>
+</html>
