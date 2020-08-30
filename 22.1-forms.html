@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>22.1-forms</title>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+    }
+  </style>
+</head>
+
+
+<body>
+  <form name="sign-up">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name">
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email">
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- 
+    Create a webpage that has a form (asks the user for its name, age and email
+    address) and when the user clicks submit, open a text window that writes all
+    the information and ask for his confirmation. If he clicks on the confirm
+    button, tell him “congratulations you successfully sent this form” if he clicks on
+    change information, give him the possibility to change the information and ask
+    again for his confirmation.
+  -->
+  <script>
+    let form = document.querySelector('[name="sign-up"]');
+
+    form.addEventListener('submit', (event) => {
+      
+      let isConfirm = confirm(`
+      click OK to confirm, Cancel to edit
+      Name: ${event.currentTarget.name.value}
+      Age: ${event.currentTarget.age.value}
+      Email: ${event.currentTarget.email.value}`)
+
+      if(isConfirm){
+        alert('congratulations you successfully sent this form')
+      } else {
+        event.preventDefault();
+      }
+    
+      
+    })
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21.2-lightbulb</title>
+</head>
+
+<!-- 
+  Create a webpage that has an image of a lightbulb.
+  When the user clicks the lightbulb, it should be turned on, clicking it again
+  will turn it off.
+ -->
+<body>
+
+  <img src="https://cdn.mos.cms.futurecdn.net/HaPnm6P7TZhPQGGUxtDjAg-650-80.jpg.webp" width="250">
+ 
+  
+  <script>
+    
+    let image = document.querySelector('img');
+
+    const srcTurnOn = "https://cdn.mos.cms.futurecdn.net/HaPnm6P7TZhPQGGUxtDjAg-650-80.jpg.webp";
+    const srcTurnOff = "https://upload.wikimedia.org/wikipedia/commons/3/3a/Gluehlampe_01_KMJ.jpg";
+
+    image.addEventListener('click', () => {
+      if (image.src === srcTurnOn){
+        image.src = srcTurnOff;
+        image.width = 200;
+      } else {
+        image.src = srcTurnOn;
+        image.width = 250;
+      }
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>22.2-checkbox</title>
+</head>
+
+<body>
+
+  <label for="display-image">Display Image:</label>
+  <input type="checkbox" name="display-image" id="display-image">
+  <img src="https://www.nparks.gov.sg/-/media/issue-44-vol-1-2020/lifestyle-recreation-and-activities/recognising-ten-streetside-flowers/2.jpg?h=252.667&w=362.667&la=en&hash=F5DF748081BF0379500763CC702604F96FE6188C" >
+
+  <!-- 
+    Create a webpage that has a checkbox. If the checkbox is checked, make a
+    photo appear. If it is not, make it disappear.
+   -->
+
+   <script>
+     let displayImageCheckbox = document.querySelector('#display-image');
+     let image = document.querySelector('img');
+
+     displayImageCheckbox.addEventListener('change', (event) => {
+       if (event.currentTarget.checked) {
+         image.style.display = 'block'
+       } else {
+        image.style.display = 'none'
+       }
+     });
+   </script>
+</body>
+</html>

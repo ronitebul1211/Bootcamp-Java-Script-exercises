@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>22.1-age</title>
+</head>
+<!-- 
+  Create a webpage that has an input field for the user’s age and a button.
+  If the user enters a number above 18, make the text “you can drink appear”.
+  If the user enters a number below 18, make the text “you’re too young”
+  appear.
+ -->
+<body>
+  <label for="age">Age: </label>
+  <input id="age" type="number">  
+  <button id="enter-btn">Enter</button>
+
+  <script>
+    let ageInput = document.querySelector('#age');
+    let enterBtn = document.querySelector('#enter-btn');
+    let message = document.createElement('p'); 
+
+    enterBtn.addEventListener('click', () => {
+     
+      message.innerHTML = '';
+     
+      ageInput.value >= 18 
+      ? message.textContent = 'you can drink' 
+      : message.textContent = 'you’re too young';
+
+      document.body.appendChild(message);
+    });
+    
+  </script>
+</body>
+</html>
