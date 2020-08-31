@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <link rel="stylesheet" href="base.css">
+
+  <style>
+    
+  .galleries { /* Container for two galleries + modal outer for img display */
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+}
+.gallery {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+    background: white;
+    padding: 2rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      object-fit: cover;
+      border:1px solid black;
+    }
+
+    .modal { /* Screen overlay */
+      position: fixed;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      pointer-events: none; /* hide overlay and behave like it's not exist*/
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .modalInner { /* Image container */
+      border-radius: 4px;
+      background: white;
+      box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.05);
+      transform: translateY(-100vh);
+      transition: all 0.5s;
+      max-width: 1000px;
+      height: calc(100vh - 100px);
+      display: grid;
+      grid-template-columns: 50px 1fr 50px;
+      color: black;
+      margin: 3rem;
+    }
+
+    .modal figure {
+      height: 100%;
+      display: grid;
+      margin: 0;
+      grid-template-rows: 1fr auto;
+    }
+
+    .modal img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+
+    .modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal figcaption {
+      padding: 10px;
+    }
+
+    .modal h2 {
+      color: black;
+    }
+
+    .modal.open .modalInner { /*When modal have open class put on the inner this class*/
+      transform: translateY(0);
+    }
+  </style>
+  
+</head>
+
+<body>
+
+  <div class="galleries">
+    <div class="gallery gallery1">
+      <img src="23.6-gallery-img/hondo.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+        <img src="23.6-gallery-img/kith-hoodie.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/naked-and-famous-denim.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/nudie-belt.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/patagonia black hole.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/rimowa.png" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/TNF-fanorak.png" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/ultra-boost.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/vapormax.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+    </div>
+
+    <div class="gallery gallery2">
+      <img src="23.6-gallery-img/270-camo-sunset.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/canada-goose.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/coral-yeti.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/hondo.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/kith-hoodie.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/naked-and-famous-denim.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/nudie-belt.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/patagonia black hole.jpg" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+
+      <img src="23.6-gallery-img/rimowa.png" alt="Photo 1" tabindex="0" title="This is the title of the image"
+        data-description="This is the description of the image">
+
+    </div>
+
+
+    <div class="modal">
+      <div class="modalInner">
+        <button aria-label="Previous Photo" class="prev">←</button>
+        <figure>
+          <img src="23.6-gallery-img/kith-hoodie.jpg">
+          <figcaption>
+            <h2>Test Title</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor dignissimos obcaecati nisi placeat eaque
+              voluptate, exercitationem eius? Non, iusto provident itaque, voluptate labore a alias officia, amet sunt
+              pariatur praesentium tenetur voluptatibus dolores mollitia quasi aliquid assumenda possimus maiores
+              exercitationem!</p>
+          </figcaption>
+        </figure>
+        <button class="next" aria-label="Next Photo">→</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*Can write as Gallery.js for reuse */
+
+    /* Gallery creation */
+    function Gallery(gallery) {
+      //If gallery element isn't exist throw error
+      if (!gallery) {
+        throw new Error('No gallery Found!');
+      }
+
+
+      //Ref UI element in gallery
+      const images = Array.from(gallery.querySelectorAll('img'));  //Array of image 
+      //Ref UI element in modal (overlay + inner modal)
+      const modal = document.querySelector('.modal'); 
+      const prevButton = document.querySelector('.prev'); 
+      const nextButton = document.querySelector('.next');
+      //Used in pre next btn
+      let currentImage;
+
+
+      /* If image exist assign the img info to the inner model ui element + open modal */
+      function showImage(el) {
+        if (!el) {
+          console.info('No Image To Show');
+          return;
+        }
+        //Ref to inner modal elements + assign value of selected img (src + title + description)
+        modal.querySelector('img').src = el.src; 
+        modal.querySelector('h2').textContent = el.title;
+        modal.querySelector('figure p').textContent = el.dataset.description;
+        currentImage = el; //Used in pre next btn
+        //Modal steel not visible -> openModal()
+        openModal();
+      }
+ 
+      /* Open display image modal: make it visible + bind event listeners to inside elements*/
+      function openModal() {
+        //If modal is already open return
+        if (modal.matches('.open')) { //Checks if the Element would be selected by the provided selectorString
+          console.info('modal already open');
+          return;
+        }
+        //If modal was close and open now:
+        modal.classList.add('open'); //visible
+        window.addEventListener('keyup', handleKeyUp); //exit modal in Esc key
+        modal.addEventListener('click', handleClickOutside); //exit modal in click outside inner modal
+        nextButton.addEventListener('click', showNextImage); 
+        prevButton.addEventListener('click', showPreviousImage);
+     }
+
+      /* Close display image modal: make it invisible + unbind event listeners to inside elements*/
+      function closeModal() {
+      modal.classList.remove('open');
+      window.removeEventListener('keyup', handleKeyUp);
+      modal.removeEventListener('click', handleClickOutside);
+      nextButton.removeEventListener('click', showNextImage);
+      prevButton.removeEventListener('click', showPreviousImage);      
+    }
+      
+      
+      function handleClickOutside(e) {
+        /* When click outside on modal - close is */
+        //target: direct element event ocurred on
+        //currentTarget: element call the event (in this case -> modal)
+        if (e.target === e.currentTarget) {
+          closeModal();
+        }
+      }
+      function handleKeyUp(e) {
+        if (e.key === 'Escape') return closeModal();
+        if (e.key === 'ArrowRight') return showImage(currentImage.nextElementSibling);
+        if (e.key === 'ArrowLeft') return showImage(currentImage.previousElementSibling);
+      }
+      function showNextImage() {
+        showImage(currentImage.nextElementSibling || gallery.firstElementChild); //If next image is the last show first image
+      }
+      function showPreviousImage() {
+        showImage(currentImage.previousElementSibling || gallery.lastElementChild); //If next image is the last show first image
+      }
+      
+      /* image Event Listener - click */
+      images.forEach(image => image.addEventListener('click', e => showImage(e.currentTarget)));
+    
+      /* 
+      image Event Listener - Enter -> accessability navigation with tab (tabindex="0")
+      +lister to Enter key event when user navigate with tab
+       */
+      images.forEach(image => image.addEventListener('keyup', e => { 
+        if (e.key === 'Enter') showImage(e.currentTarget);
+     }));
+
+    }
+    
+    const gallery1 = Gallery(document.querySelector('.gallery1'));
+    //const gallery2 = Gallery(document.querySelector('.gallery22222222'));
+  </script>
+</body>
+
+</html>

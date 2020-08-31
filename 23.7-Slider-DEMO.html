@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Slider</title>
+  <link rel="stylesheet" href="base.css">
+
+  <style>
+    .slides { /* Slide Container */
+      width: 800px; 
+      height: 500px;
+      border:2px solid black;
+      position: relative;
+      margin: 0 auto;
+      overflow: hidden; /* contain 3 slides parallel - hide when overflow  */
+    }
+
+    .slide { /* Base Slide*/
+      position: absolute;
+      background: var(--pink);
+      height: 100%;
+      width: 100%;
+      display: grid;
+      align-content: center;
+      justify-content: center;
+      color: white;
+      font-size: 100px;
+      font-family: sans-serif;
+      border: 5px solid white;
+      transition: all .25s; /* Slide transition */
+      transform: translateX(-200%); /*Put all slides from left to the container*/
+    }
+    /* SLIDE TRANSITION */
+    .slide.next + .slide { 
+      transform: translateX(200%);
+    }
+
+    .slide.prev { /* Transition */
+      z-index: 10;
+      transform: translateX(-100%);
+    }
+    .slide.current { /* Transition */
+      z-index: 10;
+      transform: translateX(0);
+    }
+    .slide.next { /* Transition */
+      z-index: 10;
+      transform: translateX(100%);
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
+      gap: 2rem;
+      justify-content: center;
+      padding: 2rem;
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div class="slider">
+    <div class="slides">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+      <div class="slide ">4</div>
+      <div class="slide">5</div>
+      <div class="slide">6</div>
+      <div class="slide">7</div>
+      <div class="slide">8</div>
+      <div class="slide">9</div>
+      <div class="slide">10</div>
+      <div class="slide">11</div>
+      <div class="slide">12</div>
+      <div class="slide">13</div>
+      <div class="slide">14</div>
+      <div class="slide">15</div>
+      <div class="slide current">16</div>
+      <div class="slide">17</div>
+      <div class="slide">18</div>
+      <div class="slide">19</div>
+      <div class="slide">20</div>
+    </div>
+
+    <div class="controls">
+      <button class="goToPrev">← Prev</button>
+      <button class="goToNext">Next →</button>
+    </div>
+  </div>
+
+  <div class="dog-slider">
+    <div class="slides">
+      <div class="slide">0001</div>
+      <div class="slide">0002</div>
+      <div class="slide">0003</div>
+      <div class="slide">0004</div>
+      <div class="slide">0005</div>
+    </div>
+    <div class="controls">
+      <button class="goToPrev">← Prev</button>
+      <button class="goToNext">Next →</button>
+    </div>
+
+  </div>
+
+  
+  <script>
+
+    /* Slider creation */
+    function Slider(sliderEl) {
+      if (!(sliderEl instanceof Element)) {
+        throw new Error('No slider passed in');
+      }
+
+      //Logic variables
+      let prevSlideEl;
+      let currentSlideEl;
+      let nextSlideEl;
+
+      //Ref UI elements needed for the slider (FROM passed in slider instead of document)
+      const slides = sliderEl.querySelector('.slides');
+      const prevButton = sliderEl.querySelector('.goToPrev');
+      const nextButton = sliderEl.querySelector('.goToNext');
+
+      /* Set start position to slide with class of current (default first slide) */
+      function startSlider() {
+        //Set current first
+        currentSlideEl = sliderEl.querySelector('.current') || slides.firstElementChild;
+        //Set next + pev base on current position
+        prevSlideEl = currentSlideEl.previousElementSibling || slides.lastElementChild; //in case current is first
+        nextSlideEl = currentSlideEl.nextElementSibling || slides.firstElementChild; //in case current is last
+      }
+      
+      /* Set UI to current, prev, next slide elements */
+      function applyClasses() {
+        currentSlideEl.classList.add('current');
+        prevSlideEl.classList.add('prev');
+        nextSlideEl.classList.add('next');
+      }
+
+      function move(direction) {
+        //Remove current, next, prev from slide elements
+        const classesToRemove = ['prev', 'current', 'next'];
+        prevSlideEl.classList.remove(...classesToRemove);
+        currentSlideEl.classList.remove(...classesToRemove);
+        nextSlideEl.classList.remove(...classesToRemove);
+        
+        //Determine Move Direction
+        if (direction === 'back') {
+          //Make an new array of the new values, and destructure them over and into the prev, current and next variables
+          [prevSlideEl, currentSlideEl, nextSlideEl] = [prevSlideEl.previousElementSibling || slides.lastElementChild, prevSlideEl, currentSlideEl];
+        } else {
+          //Forward
+          [prevSlideEl, currentSlideEl, nextSlideEl] = [currentSlideEl, nextSlideEl, nextSlideEl.nextElementSibling || slides.firstElementChild ];
+        }
+        //After positions determined assign classes
+        applyClasses();
+      }
+
+      //Event listeners To sliders nav btn
+      prevButton.addEventListener('click', () => move('back'));
+      nextButton.addEventListener('click', move);
+
+    
+      //Init slider
+      startSlider();
+      applyClasses();
+      
+    }
+
+     
+
+    /*Pass to Slider Function elements to "slide" from HTML*/
+    const mySliderEl = Slider(document.querySelector('.slider'));
+    const dogSliderEl = Slider(document.querySelector('.dog-slider'));
+
+  </script>
+</body>
+
+</html>
