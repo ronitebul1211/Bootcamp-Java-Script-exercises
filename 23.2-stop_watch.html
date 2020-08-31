@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<!-- 
+  Create a web page that has a stopwatch with a start and stop button.
+    • The stop watch should have milliseconds, seconds and minutes.
+    • When you click on the start button for the first time, the timer will start
+    running (from 00:00:00 to 60:00:00 minutes)
+    • When you click on the stop button, it will freeze the time that elapsed
+    from the start.
+    • When you click start again it will continue counting the time, from
+    where it stopped.
+   --> 
+<body>
+  <div class="clock">
+    <span class="minutes">00</span> : <span class="seconds">00</span> :  <span class="milliseconds">00</span>
+  </div>
+  <button class="stop">STOP</button>
+  <button class="start">START</button>
+</body>
+
+<script>
+
+    //Ref Ui elements
+    const millisecondsUi = document.querySelector('.milliseconds');
+    const secondsUi = document.querySelector('.seconds');
+    const minutesUi = document.querySelector('.minutes');
+    const stopBtn = document.querySelector('.stop');
+    const startBtn = document.querySelector('.start');
+     //Time var
+    let timeInterval;
+    let milliseconds = 0;
+    let seconds = 0;
+    let minutes = 0
+
+    //Event Listeners
+    stopBtn.addEventListener('click', () => {
+      console.log('stop');
+      clearInterval(timeInterval);
+    });
+
+    startBtn.addEventListener('click', () => {
+      console.log('start');
+      timeInterval = setInterval(beginCount, 10);
+    });
+    
+
+    function beginCount(){
+        milliseconds += 10;
+        if(milliseconds > 999){
+          milliseconds = 0;
+          seconds++;
+          if(seconds > 59) {
+            seconds = 0;
+            minutes++;
+          }
+        }
+        updateUi(milliseconds, seconds, minutes);
+    }
+
+    function updateUi(milliseconds, seconds, minutes) {
+      millisecondsUi.textContent = milliseconds / 10;
+      secondsUi.textContent = seconds < 10 ? `0${seconds}` : seconds;
+      minutesUi.textContent = minutes < 10 ? `0${minutes}` : minutes;
+    }
+</script>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div class="clock">
+    <span class="hours"></span> : <span class="minutes"></span> :  <span class="seconds"></span>
+  </div>
+
+  <script>
+    
+ 
+    
+
+    window.setInterval(() => {
+      const currentDate = new Date();
+      updateClockUi(currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+ 
+    }, 1000);
+
+    updateClockUi = (hours, minutes, seconds) => {
+      const hoursUi = document.querySelector('.hours');
+      const minutesUi = document.querySelector('.minutes');
+      const secondsUi = document.querySelector('.seconds');
+
+      hoursUi.textContent =  hours;
+      minutesUi.textContent = minutes;
+      secondsUi.textContent = seconds;
+    }
+      
+  </script>
+</body>
+</html>

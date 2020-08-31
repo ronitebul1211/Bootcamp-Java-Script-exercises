@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabs</title>
+
+  <style>
+    .tabs {
+      display: grid;
+    }
+
+    [role="tablist"] {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-gap: 10px;
+    }
+
+    [role="tabpanel"] {
+      background: yellow;
+      padding: 2rem;
+    }
+
+    button {
+      background: grey;
+      border: 0;
+      color: black;
+      border-radius: 5px 5px 0 0;
+      --bs-color: rgba(0,0,0,0.1);
+      box-shadow: inset 0 -2px 5px var(--bs-color);
+      cursor:pointer;
+    }
+
+    button[aria-selected="true"] {
+      background: yellow;
+      box-shadow: none;
+      color: rgba(0,0,0,0.7);
+    }
+
+    button:focus {
+      outline: 0;
+      --bs-color: rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+
+<body>
+
+   <!-- 
+        # Accessible + SEO: role="tablist" aria-label="Programming Languages" 
+        # Determine if tab selected: aria-selected="true" / "false" (proper css class)
+        # Link tab label to info: aria-labelledby="js"
+        # hidden: to hide
+       -->
+  <div class="wrapper">
+    <div class="tabs">
+      <div role="tablist" aria-label="Programming Languages">
+        <button role="tab" aria-selected="true" id="js">
+          JavaScript
+        </button>
+        <button role="tab" aria-selected="false" id="ruby">Ruby
+        </button>
+        <button role="tab" aria-selected="false" id="php">
+          PHP
+        </button>
+      </div>
+      <div role="tabpanel" aria-labelledby="js">
+        <p>JavaScript is great!</p>
+      </div>
+      <div role="tabpanel" aria-labelledby="ruby" hidden>
+        <p>Ruby is great</p>
+      </div>
+      <div role="tabpanel" aria-labelledby="php" hidden>
+        <p>PHP is great!</p>
+      </div>
+    </div>
+  </div>
+ 
+  <script>
+    
+    const tabsContainer = document.querySelector('.tabs');
+    const tabButtons = tabsContainer.querySelectorAll('[role="tab"]');  //Tab labels
+    //Array of tab panels div -> to use find() in the end of function
+    const tabPanels = Array.from(tabsContainer.querySelectorAll('[role="tabpanel"]'));
+    
+    //Bind listener to click event in tab label btn
+    tabButtons.forEach(button => button.addEventListener('click', handleTabClick));
+
+    function handleTabClick(event) {
+      //Hide all tab panels
+      tabPanels.forEach(panel => {
+        panel.hidden = true;
+      });
+
+      //Mark all tabs as unselected
+      tabButtons.forEach(tab => {
+      tab.setAttribute('aria-selected', false);  //Can't set -> tab.ariaSelected = false; 
+  
+      //Mark the clicked tab as selected
+      event.currentTarget.setAttribute('aria-selected', true);
+
+       //Find the associated tabPanel and show it!
+      const { id } = event.currentTarget; //Destructuring
+
+      //METHOD 1: select tab panel with match id to label panel and display it
+      // const tabPanel = tabsContainer.querySelector(`[aria-labelledby="${id}"]`);
+      // tabPanel.hidden = false;
+
+      //METHOD 2: find in the array of tabPanels
+      const tabPanel = tabPanels.find(panel => panel.getAttribute('aria-labelledby') === id);
+      tabPanel.hidden = false;
+
+
+    });
+    }
+ </script>
+</body>
+
+</html>

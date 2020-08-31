@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title></title>
+  
+
+  <style>
+    body{
+      background:pink;
+    }
+    .cards{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Make it responsive */
+      /* grid-template-columns: repeat(4, 1fr); */
+      gap: 10px;
+      padding: 2rem;
+    }
+    .card{
+      background: white;
+    }
+    .card img{
+      width:100%;
+    }
+    .modal-outer{
+      display:grid;
+      background: hsla(50, 100%, 50%, 0.7);
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      top: 0;
+      left: 0; 
+      justify-content: center;
+      align-items: center;
+      opacity: 0; /**/
+      pointer-events: none; /* make browser behave like model isn't there */
+      transition: opacity 0.2s;
+    }
+    .modal-outer.open{
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-inner{
+      max-width: 600px;
+      min-width: 400px;
+      padding: 2rem;
+      min-height: 200px;
+      background: white;
+      transform: translateY(-200%); /* animation starting point */
+      transition: transform 2s;
+    }
+    .modal-outer.open .modal-inner { /* when modal outer is open select modal inner */
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="cards">
+    <div class="card" data-description="Wes is cool">
+      <img src="https://picsum.photos/200?random=1" alt="Wes Bos">
+      <h2>Wes Bos</h2>
+      <button>Learn more →</button>
+    </div>
+    <div class="card" data-description="Scott is neat!">
+      <img src="https://picsum.photos/200?random=2" alt="Wes Bos">
+      <h2>Scott Tolinski</h2>
+      <button>Learn more →</button>
+    </div>
+    <div class="card" data-description="Kait is beautiful!">
+      <img src="https://picsum.photos/200?random=3" alt="Wes Bos">
+      <h2>Kait Bos</h2>
+      <button>Learn more →</button>
+    </div>
+    <div class="card" data-description="Snickers is a dog!">
+      <img src="https://picsum.photos/200?random=4" alt="Wes Bos">
+      <h2>Snickers the dog</h2>
+      <button>Learn more →</button>
+    </div>
+  </div>
+
+  <div class="modal-outer">
+    <div class="modal-inner">
+      <p>TEST</p>
+    </div>
+  </div>
+
+  <script>
+    const modelInner = document.querySelector('.modal-inner');
+    const cardButtons = document.querySelectorAll('.cards button');
+    const modelOuter = document.querySelector('.modal-outer');
+    
+    //Bind listener for click event
+    cardButtons.forEach((button) => {
+      button.addEventListener('click', handleCardButtonClick)
+    });
+
+    //Handle click event
+    function handleCardButtonClick(event) {
+      const button = event.currentTarget;
+      const parentCard = button.closest('.card');
+      //Grab current card img + des + h2
+      const cardImgSrc = parentCard.querySelector('img').src;
+      const cardDes = parentCard.dataset.description;
+      const cardName = parentCard.querySelector('h2').textContent;
+      //Populate the modal-inner with content
+      modelInner.innerHTML = `
+        <img src="${cardImgSrc.replace('200', '600')} alt='${cardName}'"/>
+        <p>${cardDes}</p>
+      `;
+      //Display modal-outer content + overlay
+      modelOuter.classList.add('open');
+    }
+
+    /*
+    Problem: Image transition stuck because image loading slowly
+    Solution: instead of creating img as inner HTML, create an img element
+    and listen to load event, when load -> add open class to outer 
+    */
+
+    
+    function closeModal(){
+      modelOuter.classList.remove('open');
+    }
+
+    //Close outer modal if the user click outside of inner modal
+    modelOuter.addEventListener('click', (event) => {
+      //Listening to click in outer modal (include inner)
+      //Closest return closest class in same / higher level of hierarchy
+      //click in inner result -> modal inner element
+      //click in outer result -> null
+      const isOutside = !event.target.closest('.modal-inner');
+
+      if(isOutside){
+        closeModal();
+      }
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if(event.key === 'Escape'){
+        closeModal();
+      }
+    });
+
+
+
+
+  </script>
+
+</body>
+
+</html>

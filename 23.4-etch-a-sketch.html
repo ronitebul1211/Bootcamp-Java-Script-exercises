@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etch A Sketch</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      background: white;
+      background: url(https://s3.amazonaws.com/media.locally.net/original/HABA_ALT_2017-08-02-13-22-45.jpg);
+      background-size: cover;
+    }
+
+    canvas {
+      border: 30px solid #e80000;
+      border-radius: 10px;
+      /* Set the width and height to half the actual size so it doesn't look pixelated */
+      width: 800px;
+      height: 500px;
+      background: white;
+    }
+
+    canvas.shake {
+      animation: shake 0.5s linear 1;
+    }
+    @keyframes shake {
+
+      10%,
+      90% {
+        transform: translate3d(-1px, 0, 0);
+      }
+
+      20%,
+      80% {
+        transform: translate3d(2px, 0, 0);
+      }
+
+      30%,
+      50%,
+      70% {
+        transform: translate3d(-4px, 0, 0);
+      }
+
+      40%,
+      60% {
+        transform: translate3d(4px, 0, 0);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="canvasWrap">
+    <canvas width="1600" height="1000" id="etch-a-sketch"></canvas>
+    <div class="buttons">
+      <button class="shake">Shake!</button>
+    </div>
+
+  </div>
+
+  <script>
+
+    const MOVE_AMOUNT = 10;
+
+    /* HTML Element reference */
+    const canvas = document.querySelector('#etch-a-sketch');
+    const canvasCtx = canvas.getContext('2d');
+    const shakeButton = document.querySelector('.shake');
+
+    /* Setup canvas for drawing */
+    canvasCtx.lineJoin = 'round';
+    canvasCtx.lineCap = 'round';
+    canvasCtx.lineWidth = MOVE_AMOUNT;
+     /* HSL Colors: 
+      * # Hue: degree on the color wheel from 0 to 360. 0 is red, 120 is green, 240 is blue
+      * # Saturation: percentage value; 0% means a shade of gray and 100% is the full color.
+      * # Lightness: percentage; 0% is black, 100% is white.
+      */
+    let hue = 0;
+    //canvasCtx.strokeStyle = `hsl(${hue}, 100%, 50%)` -> update on draw()
+
+    /* Create random starting point on canvas */
+    const width = canvas.width;
+    const height = canvas.height;  // Destructuring: const { width, height } = canvas;
+    let x = Math.floor(Math.random() * width);
+    let y = Math.floor(Math.random() * height);
+
+    /* Draw starting point on the canvas */
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(x, y); // starting point
+    canvasCtx.lineTo(x, y); // ending point
+    canvasCtx.stroke();
+
+    /* Listen for keyboard event on window */
+    window.addEventListener('keydown', handleKey);
+    
+    /* Handle key event: only if key is arrow send the key to draw() */
+    function handleKey(event) {
+      if (event.key.includes('Arrow')){
+        event.preventDefault(); // prevent scrolling down / up
+        draw({key: event.key});
+      }
+    }
+    /* Draw on canvas by key event  */
+    function draw({key}){ // Destructuring options object
+      hue += 1;
+      //canvasCtx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      canvasCtx.strokeStyle = `hsl(${Math.random() *360}, 100%, 50%)`;
+      
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(x, y); //starting draw path
+
+      switch (key) {
+        case 'ArrowUp':
+          y -= MOVE_AMOUNT;
+          break;
+        case 'ArrowDown':
+          y += MOVE_AMOUNT;
+          break;
+        case 'ArrowRight':
+          x += MOVE_AMOUNT;
+          break;
+        case 'ArrowLeft':
+          x -= MOVE_AMOUNT;
+          break;
+      
+        default:
+          break;
+      }
+      canvasCtx.lineTo(x, y); //ending draw path
+      canvasCtx.stroke();
+    }
+
+
+    /* 
+    */
+   /**
+    * Listen to shake animation, when finished remove shake class from canvas
+    * issue: each time clearCanvas() called, new event listener bind to canvas element
+    * solution: canvas.removeEventListener(callback REF) or use 3 arg (options) of addEventListener(), as follow ->
+    */
+    function clearCanvas(){
+      canvasCtx.clearRect(0,0, width, height);
+      //shake animation
+      canvas.classList.add('shake');
+      canvas.addEventListener('animationend', () => {
+        canvas.classList.remove('shake');
+      }, {once: true});
+    }
+
+     /* Listen for shake button event */
+     shakeButton.addEventListener('click', clearCanvas);
+
+    
+  </script>
+
+</body>
+
+</html>
