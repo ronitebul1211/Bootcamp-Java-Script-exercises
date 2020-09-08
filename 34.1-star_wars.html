@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    table, th, td , caption{
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+//TODO : fetch all data from one function -> iterarte url, each url rep char inside loop fetch char + fetch planet than creta obj
+//then we can try & catch in one place
+    const baseUrl = 'https://swapi.dev/api/people/';
+
+    async function getStarsWorldCharacters(){
+      const response = await fetch(baseUrl);
+      const data = await response.json();
+      const characters = [];
+
+      for (const character of data.results ) {
+        characters.push({
+          name: character.name,
+          height: character.height,
+          hair: character.hair_color,
+          planet: await getStarsWorldPlanet(character.homeworld)
+        })   
+      }
+      return characters;
+    }
+
+    async function getStarsWorldPlanet(planetApi){
+      const response = await fetch(planetApi);
+      const data = await response.json();
+      return {
+        name: data.name, 
+        population: data.population
+      }
+    }
+
+    function displayInTable(characters){
+    
+      const tableEl = document.createElement('table');
+      document.body.appendChild(tableEl);
+
+      const tableStructure = 
+      tableEl.insertAdjacentHTML("afterbegin", 
+       `<caption>Star Wars</caption>
+        <tr>
+          <th>Name</th>
+          <th>Hair</th>
+          <th>Height</th>
+          <th>Planet Name</th>
+          <th>Planet population</th>
+        </tr>`
+      );
+      characters.forEach(character => {
+        let characterTableRow = 
+        `<tr>
+          <td>${character.name}</td>
+          <td>${character.hair}</td>
+          <td>${character.height}</td>
+          <td>${character.planet.name}</td>
+          <td>${character.planet.population}</td>
+        </tr>`;
+        tableEl.insertAdjacentHTML('beforeend', characterTableRow);
+      });      
+    }
+
+    
+ 
+  
+
+
+    async function display(){
+      const characters = await getStarsWorldCharacters().catch(error => console.log(`my catch ${error}`));
+      displayInTable(characters);
+    }
+
+    display();
+
+    
+
+
+
+   
+
+
+  </script>
+  
+</body>
+</html>
