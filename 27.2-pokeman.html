@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <!-- 
+    You are given a function, Pokeman, that takes three parameters,
+    pokemonName, pokemonType, an array of different pokemon attack methods, pokemonAttackList.
+      1. Create three instances of the Pokemon and save them in a variable.
+      
+      2. Using prototype properties, add the following methods:
+      • A method called callPokemon that will print the following: “I choose
+      you, <pokemon name>
+      
+        • A method called attack that takes one parameter, an attack number,
+      that will print the specific attack method from the pokemonAttackList
+      array as the following: “<pokemon name> used <attack method>”
+      Call each pokemon with the 2 methods you created.
+   -->
+
+   <script>
+     
+     function Pokemon(pokemonName, pokemonType, pokemonAttackList){
+      this.name = pokemonName;
+      this.type = pokemonType;
+      this.attackList = pokemonAttackList;
+     }
+
+     Pokemon.prototype.callPokemon = function(){
+       console.log(`I choose you, ${this.name}`);
+     }
+     Pokemon.prototype.attack = function(attackNum){
+       console.log(`${this.name} used ${ this.attackList[attackNum]}`);
+     }
+
+     const bulbasaur = new Pokemon('Bulbasaur', 'Grass', ['electrifying', 'fire']);
+     const charizard  = new Pokemon('Charizard ', 'Fire', ['water jet', 'electrifying']);
+     const pikachu   = new Pokemon('Pikachu', 'Electric',['electrifying', 'fire']);
+
+     bulbasaur.callPokemon();
+     bulbasaur.attack(1);
+     charizard.callPokemon();
+     charizard.attack(1);
+     pikachu.callPokemon();
+     pikachu.attack(1);
+   </script>
+  
+</body>
+</html>
